@@ -1,7 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Display paths to the current desktop wallpapers."""
 # https://discussions.apple.com/message/23522465#23522465
-from __future__ import absolute_import, division, print_function
 
 import os
 import sqlite3
