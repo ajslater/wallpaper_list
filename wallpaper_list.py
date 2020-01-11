@@ -9,10 +9,11 @@ import subprocess
 HOME = os.getenv("HOME")
 DBPATH = "{}/Library/Application Support/Dock/desktoppicture.db".format(HOME)
 WP_ROOT_SQL = "SELECT data.value FROM data ORDER BY rowid LIMIT 1 OFFSET 0"
-NUM_DESKTOPS_SQL = "(SELECT data.value FROM data" \
-                   " ORDER BY rowid LIMIT 1 OFFSET 2)"
-IMAGES_SQL_TMPL = "SELECT data.value FROM data ORDER BY rowid " \
-                  "DESC LIMIT {}".format(NUM_DESKTOPS_SQL)
+NUM_DESKTOPS_SQL = "(SELECT data.value FROM data" " ORDER BY rowid LIMIT 1 OFFSET 2)"
+NUM_DESKTOPS_SQL = 3
+IMAGES_SQL_TMPL = "SELECT data.value FROM data ORDER BY rowid " "DESC LIMIT {}".format(
+    NUM_DESKTOPS_SQL
+)
 
 
 def get_wp_root(cur):
@@ -55,7 +56,7 @@ def main():
     """main"""
     wp_root, imgs = query_db()
     paths = get_paths(wp_root, imgs)
-    print(' '.join(paths))
+    print(" ".join(paths))
     subprocess.call(["/usr/bin/open"] + paths)
 
 
