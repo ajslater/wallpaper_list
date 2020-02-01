@@ -9,15 +9,15 @@ import subprocess
 HOME = os.getenv("HOME")
 DBPATH = "{}/Library/Application Support/Dock/desktoppicture.db".format(HOME)
 WP_ROOT_SQL = "SELECT data.value FROM data ORDER BY rowid LIMIT 1 OFFSET 0"
-NUM_DESKTOPS_SQL = "(SELECT data.value FROM data" " ORDER BY rowid LIMIT 1 OFFSET 2)"
+# NUM_DESKTOPS_SQL = "(SELECT data.value FROM data" \
+#    " ORDER BY rowid LIMIT 1 OFFSET 2)"
 NUM_DESKTOPS_SQL = 3
-IMAGES_SQL_TMPL = "SELECT data.value FROM data ORDER BY rowid " "DESC LIMIT {}".format(
-    NUM_DESKTOPS_SQL
-)
+IMAGES_SQL_TMPL = f"SELECT data.value FROM data ORDER BY rowid " \
+    "DESC LIMIT {NUM_DESKTOPS_SQL}"
 
 
 def get_wp_root(cur):
-    """get the wallpaper root directory."""
+    """Get the wallpaper root directory."""
     path = cur.execute(WP_ROOT_SQL).fetchone()[0]
     if os.path.islink(path):
         path = os.readlink(path)
@@ -25,8 +25,7 @@ def get_wp_root(cur):
 
 
 def get_images(cur):
-    """get the number of images from the database equal to the number of
-       desktops"""
+    """Get the images from the database."""
     return cur.execute(IMAGES_SQL_TMPL).fetchall()
 
 
@@ -41,7 +40,7 @@ def query_db():
 
 
 def get_paths(wp_root, imgs):
-    """create full paths for the images and dereference symlinks."""
+    """Create full paths for the images and dereference symlinks."""
     paths = []
     for img in imgs:
         img = os.path.join(wp_root, img[0])
@@ -53,7 +52,7 @@ def get_paths(wp_root, imgs):
 
 
 def main():
-    """main"""
+    """Get the images from the DB, print the paths and open them."""
     wp_root, imgs = query_db()
     paths = get_paths(wp_root, imgs)
     print(" ".join(paths))
