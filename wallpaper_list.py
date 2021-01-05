@@ -12,8 +12,8 @@ WP_ROOT_SQL = "SELECT data.value FROM data ORDER BY rowid LIMIT 1 OFFSET 0"
 # NUM_DESKTOPS_SQL = "(SELECT data.value FROM data" \
 #    " ORDER BY rowid LIMIT 1 OFFSET 2)"
 NUM_DESKTOPS_SQL = 3
-IMAGES_SQL_TMPL = f"SELECT data.value FROM data ORDER BY rowid " \
-    "DESC LIMIT {NUM_DESKTOPS_SQL}"
+IMAGES_SQL_TMPL = "SELECT data.value FROM data ORDER BY rowid " \
+    f"DESC LIMIT {NUM_DESKTOPS_SQL}"
 
 
 def get_wp_root(cur):
