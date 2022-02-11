@@ -31,8 +31,13 @@ def get_paths():
     wp_root, imgs = query_db()
     paths = []
     for img in imgs:
-        img = (wp_root / img[0]).resolve()
-        paths += [img]
+        img_path = Path(img[0])
+        img_path = img_path.expanduser()
+        if not img_path.is_absolute():
+            img_path = wp_root / img_path
+        img_path = img_path.resolve()
+        print(img_path)
+        paths += [img_path]
 
     return paths
 
@@ -40,8 +45,6 @@ def get_paths():
 def main():
     """Get the images from the DB, print the paths and open them."""
     paths = get_paths()
-    for path in paths:
-        print(path)
     subprocess.call(["/usr/bin/open"] + paths)
 
 
