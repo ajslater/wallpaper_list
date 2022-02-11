@@ -8,21 +8,20 @@ from pathlib import Path
 
 DBPATH = Path.home() / "Library/Application Support/Dock/desktoppicture.db"
 WP_ROOT_SQL = "SELECT data.value FROM data ORDER BY rowid LIMIT 1 OFFSET 0"
-# NUM_DESKTOPS_SQL = "(SELECT data.value FROM data" \
-#    " ORDER BY rowid LIMIT 1 OFFSET 2)"
 NUM_DESKTOPS_SQL = 3
 IMAGES_SQL_TMPL = (
-    "SELECT data.value FROM data ORDER BY rowid " f"DESC LIMIT {NUM_DESKTOPS_SQL}"
+    "SELECT data.value FROM data ORDER BY rowid DESC LIMIT {NUM_DESKTOPS_SQL}"
 )
 
 
 def query_db():
     """Get the information from the database."""
+    images_sql = IMAGES_SQL_TMPL.format(NUM_DESKTOPS_SQL=NUM_DESKTOPS_SQL)
     with sqlite3.connect(DBPATH) as conn:
         cur = conn.cursor()
         wp_root = cur.execute(WP_ROOT_SQL).fetchone()[0]
-        wp_root = Path(wp_root).expanduser().resolve()
-        images = cur.execute(IMAGES_SQL_TMPL).fetchall()
+        images = cur.execute(images_sql).fetchall()
+    wp_root = Path(wp_root).expanduser().resolve()
     return wp_root, images
 
 
